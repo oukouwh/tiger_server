@@ -69,12 +69,12 @@ public class Quotation implements Serializable {
     private LocalDate acceptanceDate;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     @Column(name = "payments_terms", nullable = false)
     private PayMaster paymentsTerms;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
     @Column(name = "pay_flag", nullable = false)
     private PayFlag payFlag;
 
@@ -115,7 +115,7 @@ public class Quotation implements Serializable {
 
     @OneToMany(mappedBy = "quotation")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "quotation" }, allowSetters = true)
+//    @JsonIgnoreProperties(value = { "quotation" }, allowSetters = true)
     private Set<Quotationitem> quotationItems = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

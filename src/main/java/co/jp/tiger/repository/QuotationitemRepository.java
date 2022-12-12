@@ -14,27 +14,27 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface QuotationitemRepository extends JpaRepository<Quotationitem, Long> {
-    default Optional<Quotationitem> findOneWithEagerRelationships(Long id) {
-        return this.findOneWithToOneRelationships(id);
-    }
-
-    default List<Quotationitem> findAllWithEagerRelationships() {
-        return this.findAllWithToOneRelationships();
-    }
-
-    default Page<Quotationitem> findAllWithEagerRelationships(Pageable pageable) {
-        return this.findAllWithToOneRelationships(pageable);
-    }
-
-    @Query(
-        value = "select distinct quotationitem from Quotationitem quotationitem left join fetch quotationitem.quotation",
-        countQuery = "select count(distinct quotationitem) from Quotationitem quotationitem"
-    )
-    Page<Quotationitem> findAllWithToOneRelationships(Pageable pageable);
-
-    @Query("select distinct quotationitem from Quotationitem quotationitem left join fetch quotationitem.quotation")
-    List<Quotationitem> findAllWithToOneRelationships();
-
-    @Query("select quotationitem from Quotationitem quotationitem left join fetch quotationitem.quotation where quotationitem.id =:id")
-    Optional<Quotationitem> findOneWithToOneRelationships(@Param("id") Long id);
+//    default Optional<Quotationitem> findOneWithEagerRelationships(Long id) {
+//        return this.findOneWithToOneRelationships(id);
+//    }
+//
+//    default List<Quotationitem> findAllWithEagerRelationships() {
+//        return this.findAllWithToOneRelationships();
+//    }
+//
+//    default Page<Quotationitem> findAllWithEagerRelationships(Pageable pageable) {
+//        return this.findAllWithToOneRelationships(pageable);
+//    }
+//
+//    @Query(
+//        value = "select distinct quotationitem from Quotationitem quotationitem left join fetch quotationitem.quotation",
+//        countQuery = "select count(distinct quotationitem) from Quotationitem quotationitem"
+//    )
+//    Page<Quotationitem> findAllWithToOneRelationships(Pageable pageable);
+//
+//    @Query("select distinct quotationitem from Quotationitem quotationitem left join fetch quotationitem.quotation")
+//    List<Quotationitem> findAllWithToOneRelationships();
+//
+//    @Query("select quotationitem from Quotationitem quotationitem left join fetch quotationitem.quotation where quotationitem.id =:id")
+//    Optional<Quotationitem> findOneWithToOneRelationships(@Param("id") Long id);
 }
