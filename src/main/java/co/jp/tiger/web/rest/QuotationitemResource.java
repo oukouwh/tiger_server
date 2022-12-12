@@ -178,11 +178,11 @@ public class QuotationitemResource {
     @GetMapping("/quotationitems")
     public List<Quotationitem> getAllQuotationitems(@RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get all Quotationitems");
-        if (eagerload) {
-            return quotationitemRepository.findAllWithEagerRelationships();
-        } else {
+        // if (eagerload) {
+        //     return quotationitemRepository.findAllWithEagerRelationships();
+        // } else {
             return quotationitemRepository.findAll();
-        }
+        // }
     }
 
     /**
@@ -194,7 +194,9 @@ public class QuotationitemResource {
     @GetMapping("/quotationitems/{id}")
     public ResponseEntity<Quotationitem> getQuotationitem(@PathVariable Long id) {
         log.debug("REST request to get Quotationitem : {}", id);
-        Optional<Quotationitem> quotationitem = quotationitemRepository.findOneWithEagerRelationships(id);
+        // Optional<Quotationitem> quotationitem = quotationitemRepository.findOneWithEagerRelationships(id);
+        // ADD
+        Optional<Quotationitem> quotationitem = quotationitemRepository.findById(id);
         return ResponseUtil.wrapOrNotFound(quotationitem);
     }
 

@@ -114,7 +114,9 @@ public class QuotationResource {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        Quotation result = quotationService.update(quotation);
+        // Quotation result = quotationService.update(quotation);
+        // ADD
+        Quotation result = quotationService.save(quotation);
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, quotation.getId().toString()))
@@ -132,30 +134,30 @@ public class QuotationResource {
      * or with status {@code 500 (Internal Server Error)} if the quotation couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/quotations/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    public ResponseEntity<Quotation> partialUpdateQuotation(
-        @PathVariable(value = "id", required = false) final Long id,
-        @NotNull @RequestBody Quotation quotation
-    ) throws URISyntaxException {
-        log.debug("REST request to partial update Quotation partially : {}, {}", id, quotation);
-        if (quotation.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        if (!Objects.equals(id, quotation.getId())) {
-            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
-        }
-
-        if (!quotationRepository.existsById(id)) {
-            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
-        }
-
-        Optional<Quotation> result = quotationService.partialUpdate(quotation);
-
-        return ResponseUtil.wrapOrNotFound(
-            result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, quotation.getId().toString())
-        );
-    }
+//    @PatchMapping(value = "/quotations/{id}", consumes = { "application/json", "application/merge-patch+json" })
+//    public ResponseEntity<Quotation> partialUpdateQuotation(
+//        @PathVariable(value = "id", required = false) final Long id,
+//        @NotNull @RequestBody Quotation quotation
+//    ) throws URISyntaxException {
+//        log.debug("REST request to partial update Quotation partially : {}, {}", id, quotation);
+//        if (quotation.getId() == null) {
+//            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+//        }
+//        if (!Objects.equals(id, quotation.getId())) {
+//            throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
+//        }
+//
+//        if (!quotationRepository.existsById(id)) {
+//            throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
+//        }
+//
+//        Optional<Quotation> result = quotationService.partialUpdate(quotation);
+//
+//        return ResponseUtil.wrapOrNotFound(
+//            result,
+//            HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, quotation.getId().toString())
+//        );
+//    }
 
     /**
      * {@code GET  /quotations} : get all the quotations.
@@ -364,9 +366,9 @@ public class QuotationResource {
                 quotationItemNo = obj.getQuotationItemNo();
                 workerName = obj.getWorkerName();
                 standardPrice = obj.getStandardPrice();
-                // count = obj.getCount();
+                 count = obj.getCount();
                 // ADD
-                count = BigDecimal.valueOf(obj.getCount());
+//                count = BigDecimal.valueOf(obj.getCount());
                 additionalPrice = obj.getAdditionalPrice();
                 deductionPrice = obj.getDeductionPrice();
                 memo = obj.getMemo();
@@ -555,9 +557,9 @@ public class QuotationResource {
                 quotationItemNo = obj.getQuotationItemNo();
                 workerName = obj.getWorkerName();
                 standardPrice = obj.getStandardPrice();
-                // count = obj.getCount();
+                 count = obj.getCount();
                 // ADD
-                count = BigDecimal.valueOf(obj.getCount());
+//                count = BigDecimal.valueOf(obj.getCount());
                 additionalPrice = obj.getAdditionalPrice();
                 deductionPrice = obj.getDeductionPrice();
                 memo = obj.getMemo();

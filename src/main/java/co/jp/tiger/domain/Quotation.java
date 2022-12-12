@@ -1,10 +1,7 @@
 package co.jp.tiger.domain;
 
 import co.jp.tiger.domain.enumeration.OrderAccuracy;
-import co.jp.tiger.domain.enumeration.PayFlag;
-import co.jp.tiger.domain.enumeration.PayMaster;
 import co.jp.tiger.domain.enumeration.SendFlag;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -20,7 +17,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * 見積書表\nquotationNo  見積書番号 String\nquotationName 見積書名  String\nquotationDate 見積書日付 LocalDate\nworkStart 作業开始时间 LocalDate\nworkEnd 作業終了期間  LocalDate\ndeliveryItems 納入物件 String\ndeliveryDate 納入日 LocalDate\nacceptanceDate 検収予定日 LocalDate\npaymentsTerms 支払条件 PayMaster\npayFlag 精算フラグ    PayFlag  Yあり、Nなし\nquotationExpirationDate 見積有効期限 LocalDate\ntotalAmount 合計金額  BigDecimal\n合計金額 = SUM(明細.金額=明細.数量×明細.単価)  ： totalAmount = SUM(standardPrice*count)\n明細.追加時間単価=明細.単価÷上限時間  ：  additionalPrice = standardPrice/upperLimitHour\n明細.控除時間単価=明細.単価÷下限時間 ：  deductionPrice = standardPrice/lowerLimitHour\n↓↓↓↓↓↓↓↓非表示字段，数据库字段可以插入空值↓↓↓↓↓↓↓↓\ncustomerCharge 顧客担当 String\naccuracy 受注確度 OrderAccuracy\nmailSendDate メール送付日 LocalDate\npostSendDate 見積郵送日 LocalDate\nsendFlag 送信フラグ SendFlag\nsalesStaff 営業担当 String\nsalesOffice 営業事務 String\nupdateCount 更新回数 Long
  */
 @Schema(
-    description = "見積書表\nquotationNo  見積書番号 String\nquotationName 見積書名  String\nquotationDate 見積書日付 LocalDate\nworkStart 作業开始时间 LocalDate\nworkEnd 作業終了期間  LocalDate\ndeliveryItems 納入物件 String\ndeliveryDate 納入日 LocalDate\nacceptanceDate 検収予定日 LocalDate\npaymentsTerms 支払条件 PayMaster\npayFlag 精算フラグ    PayFlag  Yあり、Nなし\nquotationExpirationDate 見積有効期限 LocalDate\ntotalAmount 合計金額  BigDecimal\n合計金額 = SUM(明細.金額=明細.数量×明細.単価)  ： totalAmount = SUM(standardPrice*count)\n明細.追加時間単価=明細.単価÷上限時間  ：  additionalPrice = standardPrice/upperLimitHour\n明細.控除時間単価=明細.単価÷下限時間 ：  deductionPrice = standardPrice/lowerLimitHour\n↓↓↓↓↓↓↓↓非表示字段，数据库字段可以插入空值↓↓↓↓↓↓↓↓\ncustomerCharge 顧客担当 String\naccuracy 受注確度 OrderAccuracy\nmailSendDate メール送付日 LocalDate\npostSendDate 見積郵送日 LocalDate\nsendFlag 送信フラグ SendFlag\nsalesStaff 営業担当 String\nsalesOffice 営業事務 String\nupdateCount 更新回数 Long"
+    // description = "見積書表\nquotationNo  見積書番号 String\nquotationName 見積書名  String\nquotationDate 見積書日付 LocalDate\nworkStart 作業开始时间 LocalDate\nworkEnd 作業終了期間  LocalDate\ndeliveryItems 納入物件 String\ndeliveryDate 納入日 LocalDate\nacceptanceDate 検収予定日 LocalDate\npaymentsTerms 支払条件 PayMaster\npayFlag 精算フラグ    PayFlag  Yあり、Nなし\nquotationExpirationDate 見積有効期限 LocalDate\ntotalAmount 合計金額  BigDecimal\n合計金額 = SUM(明細.金額=明細.数量×明細.単価)  ： totalAmount = SUM(standardPrice*count)\n明細.追加時間単価=明細.単価÷上限時間  ：  additionalPrice = standardPrice/upperLimitHour\n明細.控除時間単価=明細.単価÷下限時間 ：  deductionPrice = standardPrice/lowerLimitHour\n↓↓↓↓↓↓↓↓非表示字段，数据库字段可以插入空值↓↓↓↓↓↓↓↓\ncustomerCharge 顧客担当 String\naccuracy 受注確度 OrderAccuracy\nmailSendDate メール送付日 LocalDate\npostSendDate 見積郵送日 LocalDate\nsendFlag 送信フラグ SendFlag\nsalesStaff 営業担当 String\nsalesOffice 営業事務 String\nupdateCount 更新回数 Long"
 )
 @Entity
 @Table(name = "quotation")
@@ -32,7 +29,6 @@ public class Quotation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @NotNull
@@ -71,12 +67,13 @@ public class Quotation implements Serializable {
     @NotNull
 //    @Enumerated(EnumType.STRING)
     @Column(name = "payments_terms", nullable = false)
-    private PayMaster paymentsTerms;
+    private String paymentsTerms;
 
     @NotNull
 //    @Enumerated(EnumType.STRING)
     @Column(name = "pay_flag", nullable = false)
-    private PayFlag payFlag;
+//    private PayFlag payFlag;
+    private String payFlag;
 
     @NotNull
     @Column(name = "quotation_expiration_date", nullable = false)
@@ -114,19 +111,12 @@ public class Quotation implements Serializable {
     private Long updateCount;
 
     @OneToMany(mappedBy = "quotation")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-//    @JsonIgnoreProperties(value = { "quotation" }, allowSetters = true)
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Quotationitem> quotationItems = new HashSet<>();
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
-
+    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
-        return this.id;
-    }
-
-    public Quotation id(Long id) {
-        this.setId(id);
-        return this;
+        return id;
     }
 
     public void setId(Long id) {
@@ -134,11 +124,11 @@ public class Quotation implements Serializable {
     }
 
     public String getQuotationNo() {
-        return this.quotationNo;
+        return quotationNo;
     }
 
     public Quotation quotationNo(String quotationNo) {
-        this.setQuotationNo(quotationNo);
+        this.quotationNo = quotationNo;
         return this;
     }
 
@@ -147,11 +137,11 @@ public class Quotation implements Serializable {
     }
 
     public String getQuotationName() {
-        return this.quotationName;
+        return quotationName;
     }
 
     public Quotation quotationName(String quotationName) {
-        this.setQuotationName(quotationName);
+        this.quotationName = quotationName;
         return this;
     }
 
@@ -160,11 +150,11 @@ public class Quotation implements Serializable {
     }
 
     public LocalDate getQuotationDate() {
-        return this.quotationDate;
+        return quotationDate;
     }
 
     public Quotation quotationDate(LocalDate quotationDate) {
-        this.setQuotationDate(quotationDate);
+        this.quotationDate = quotationDate;
         return this;
     }
 
@@ -173,11 +163,11 @@ public class Quotation implements Serializable {
     }
 
     public LocalDate getWorkStart() {
-        return this.workStart;
+        return workStart;
     }
 
     public Quotation workStart(LocalDate workStart) {
-        this.setWorkStart(workStart);
+        this.workStart = workStart;
         return this;
     }
 
@@ -186,11 +176,11 @@ public class Quotation implements Serializable {
     }
 
     public LocalDate getWorkEnd() {
-        return this.workEnd;
+        return workEnd;
     }
 
     public Quotation workEnd(LocalDate workEnd) {
-        this.setWorkEnd(workEnd);
+        this.workEnd = workEnd;
         return this;
     }
 
@@ -199,11 +189,11 @@ public class Quotation implements Serializable {
     }
 
     public String getDeliveryItems() {
-        return this.deliveryItems;
+        return deliveryItems;
     }
 
     public Quotation deliveryItems(String deliveryItems) {
-        this.setDeliveryItems(deliveryItems);
+        this.deliveryItems = deliveryItems;
         return this;
     }
 
@@ -212,11 +202,11 @@ public class Quotation implements Serializable {
     }
 
     public LocalDate getDeliveryDate() {
-        return this.deliveryDate;
+        return deliveryDate;
     }
 
     public Quotation deliveryDate(LocalDate deliveryDate) {
-        this.setDeliveryDate(deliveryDate);
+        this.deliveryDate = deliveryDate;
         return this;
     }
 
@@ -225,11 +215,11 @@ public class Quotation implements Serializable {
     }
 
     public LocalDate getAcceptanceDate() {
-        return this.acceptanceDate;
+        return acceptanceDate;
     }
 
     public Quotation acceptanceDate(LocalDate acceptanceDate) {
-        this.setAcceptanceDate(acceptanceDate);
+        this.acceptanceDate = acceptanceDate;
         return this;
     }
 
@@ -237,38 +227,38 @@ public class Quotation implements Serializable {
         this.acceptanceDate = acceptanceDate;
     }
 
-    public PayMaster getPaymentsTerms() {
-        return this.paymentsTerms;
+    public String getPaymentsTerms() {
+        return paymentsTerms;
     }
 
-    public Quotation paymentsTerms(PayMaster paymentsTerms) {
-        this.setPaymentsTerms(paymentsTerms);
+    public Quotation paymentsTerms(String paymentsTerms) {
+        this.paymentsTerms = paymentsTerms;
         return this;
     }
 
-    public void setPaymentsTerms(PayMaster paymentsTerms) {
+    public void setPaymentsTerms(String paymentsTerms) {
         this.paymentsTerms = paymentsTerms;
     }
 
-    public PayFlag getPayFlag() {
-        return this.payFlag;
+    public String getPayFlag() {
+        return payFlag;
     }
 
-    public Quotation payFlag(PayFlag payFlag) {
-        this.setPayFlag(payFlag);
+    public Quotation payFlag(String payFlag) {
+        this.payFlag = payFlag;
         return this;
     }
 
-    public void setPayFlag(PayFlag payFlag) {
+    public void setPayFlag(String payFlag) {
         this.payFlag = payFlag;
     }
 
     public LocalDate getQuotationExpirationDate() {
-        return this.quotationExpirationDate;
+        return quotationExpirationDate;
     }
 
     public Quotation quotationExpirationDate(LocalDate quotationExpirationDate) {
-        this.setQuotationExpirationDate(quotationExpirationDate);
+        this.quotationExpirationDate = quotationExpirationDate;
         return this;
     }
 
@@ -277,11 +267,11 @@ public class Quotation implements Serializable {
     }
 
     public BigDecimal getTotalAmount() {
-        return this.totalAmount;
+        return totalAmount;
     }
 
     public Quotation totalAmount(BigDecimal totalAmount) {
-        this.setTotalAmount(totalAmount);
+        this.totalAmount = totalAmount;
         return this;
     }
 
@@ -290,11 +280,11 @@ public class Quotation implements Serializable {
     }
 
     public String getCustomerCharge() {
-        return this.customerCharge;
+        return customerCharge;
     }
 
     public Quotation customerCharge(String customerCharge) {
-        this.setCustomerCharge(customerCharge);
+        this.customerCharge = customerCharge;
         return this;
     }
 
@@ -303,11 +293,11 @@ public class Quotation implements Serializable {
     }
 
     public OrderAccuracy getAccuracy() {
-        return this.accuracy;
+        return accuracy;
     }
 
     public Quotation accuracy(OrderAccuracy accuracy) {
-        this.setAccuracy(accuracy);
+        this.accuracy = accuracy;
         return this;
     }
 
@@ -316,11 +306,11 @@ public class Quotation implements Serializable {
     }
 
     public LocalDate getMailSendDate() {
-        return this.mailSendDate;
+        return mailSendDate;
     }
 
     public Quotation mailSendDate(LocalDate mailSendDate) {
-        this.setMailSendDate(mailSendDate);
+        this.mailSendDate = mailSendDate;
         return this;
     }
 
@@ -329,11 +319,11 @@ public class Quotation implements Serializable {
     }
 
     public LocalDate getPostSendDate() {
-        return this.postSendDate;
+        return postSendDate;
     }
 
     public Quotation postSendDate(LocalDate postSendDate) {
-        this.setPostSendDate(postSendDate);
+        this.postSendDate = postSendDate;
         return this;
     }
 
@@ -342,11 +332,11 @@ public class Quotation implements Serializable {
     }
 
     public SendFlag getSendFlag() {
-        return this.sendFlag;
+        return sendFlag;
     }
 
     public Quotation sendFlag(SendFlag sendFlag) {
-        this.setSendFlag(sendFlag);
+        this.sendFlag = sendFlag;
         return this;
     }
 
@@ -355,11 +345,11 @@ public class Quotation implements Serializable {
     }
 
     public String getSalesStaff() {
-        return this.salesStaff;
+        return salesStaff;
     }
 
     public Quotation salesStaff(String salesStaff) {
-        this.setSalesStaff(salesStaff);
+        this.salesStaff = salesStaff;
         return this;
     }
 
@@ -368,11 +358,11 @@ public class Quotation implements Serializable {
     }
 
     public String getSalesOffice() {
-        return this.salesOffice;
+        return salesOffice;
     }
 
     public Quotation salesOffice(String salesOffice) {
-        this.setSalesOffice(salesOffice);
+        this.salesOffice = salesOffice;
         return this;
     }
 
@@ -381,11 +371,11 @@ public class Quotation implements Serializable {
     }
 
     public Long getUpdateCount() {
-        return this.updateCount;
+        return updateCount;
     }
 
     public Quotation updateCount(Long updateCount) {
-        this.setUpdateCount(updateCount);
+        this.updateCount = updateCount;
         return this;
     }
 
@@ -394,21 +384,11 @@ public class Quotation implements Serializable {
     }
 
     public Set<Quotationitem> getQuotationItems() {
-        return this.quotationItems;
-    }
-
-    public void setQuotationItems(Set<Quotationitem> quotationitems) {
-        if (this.quotationItems != null) {
-            this.quotationItems.forEach(i -> i.setQuotation(null));
-        }
-        if (quotationitems != null) {
-            quotationitems.forEach(i -> i.setQuotation(this));
-        }
-        this.quotationItems = quotationitems;
+        return quotationItems;
     }
 
     public Quotation quotationItems(Set<Quotationitem> quotationitems) {
-        this.setQuotationItems(quotationitems);
+        this.quotationItems = quotationitems;
         return this;
     }
 
@@ -424,7 +404,10 @@ public class Quotation implements Serializable {
         return this;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    public void setQuotationItems(Set<Quotationitem> quotationitems) {
+        this.quotationItems = quotationitems;
+    }
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {
@@ -439,11 +422,9 @@ public class Quotation implements Serializable {
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-        return getClass().hashCode();
+        return 31;
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
         return "Quotation{" +
