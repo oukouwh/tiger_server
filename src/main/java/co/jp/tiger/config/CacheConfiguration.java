@@ -48,6 +48,7 @@ public class CacheConfiguration {
             createCache(cm, co.jp.tiger.domain.User.class.getName());
             createCache(cm, co.jp.tiger.domain.Authority.class.getName());
             createCache(cm, co.jp.tiger.domain.User.class.getName() + ".authorities");
+            createCache(cm, co.jp.tiger.domain.Quotation.class.getName());
             createCache(cm, co.jp.tiger.domain.Quotation.class.getName() + ".quotationItems");
             createCache(cm, co.jp.tiger.domain.Quotationitem.class.getName());
             createCache(cm, co.jp.tiger.domain.Customer.class.getName());

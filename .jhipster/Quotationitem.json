@@ -1,0 +1,85 @@
+{
+  "applications": "*",
+  "changelogDate": "20221212030345",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "quotationitem",
+  "fields": [
+    {
+      "fieldName": "quotationNo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "quotationItemNo",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "workerName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "standardPrice",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required", "max"],
+      "fieldValidateRulesMax": "999999999"
+    },
+    {
+      "fieldName": "count",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "upperLimitHour",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required", "max"],
+      "fieldValidateRulesMax": "999"
+    },
+    {
+      "fieldName": "lowerLimitHour",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required", "max"],
+      "fieldValidateRulesMax": "999"
+    },
+    {
+      "fieldName": "additionalPrice",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required", "max"],
+      "fieldValidateRulesMax": "999999999"
+    },
+    {
+      "fieldName": "deductionPrice",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["max"],
+      "fieldValidateRulesMax": "999999999"
+    },
+    {
+      "fieldName": "memo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "updateCount",
+      "fieldType": "Long"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "見積書明細\\nquotationNo  見積書番号 绑定\\nquotationItemNo 見積書明細No\\nworkerName 作業者\\nstandardPrice 月額基準単価\\ncount 数量\\nupperLimitHour 上限時間\\nlowerLimitHour 下限時間\\nadditionalPrice 追加単価\\ndeductionPrice 控除単価\\nmemo 備考\\nupdateCount 更新回数  非表示",
+  "jpaMetamodelFiltering": false,
+  "name": "Quotationitem",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "quotationNo",
+      "otherEntityName": "quotation",
+      "otherEntityRelationshipName": "quotationItem",
+      "relationshipName": "quotation",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

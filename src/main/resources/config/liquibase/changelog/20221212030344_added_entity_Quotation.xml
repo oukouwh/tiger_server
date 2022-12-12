@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity Quotation.
+    -->
+    <changeSet id="20221212030344-1" author="jhipster">
+        <createTable tableName="quotation" remarks="見積書表\nquotationNo  見積書番号 String\nquotationName 見積書名  String\nquotationDate 見積書日付 LocalDate\nworkStart 作業开始时间 LocalDate\nworkEnd 作業終了期間  LocalDate\ndeliveryItems 納入物件 String\ndeliveryDate 納入日 LocalDate\nacceptanceDate 検収予定日 LocalDate\npaymentsTerms 支払条件 PayMaster\npayFlag 精算フラグ    PayFlag  Yあり、Nなし\nquotationExpirationDate 見積有効期限 LocalDate\ntotalAmount 合計金額  BigDecimal\n合計金額 = SUM(明細.金額=明細.数量×明細.単価)  ： totalAmount = SUM(standardPrice*count)\n明細.追加時間単価=明細.単価÷上限時間  ：  additionalPrice = standardPrice/upperLimitHour\n明細.控除時間単価=明細.単価÷下限時間 ：  deductionPrice = standardPrice/lowerLimitHour\n↓↓↓↓↓↓↓↓非表示字段，数据库字段可以插入空值↓↓↓↓↓↓↓↓\ncustomerCharge 顧客担当 String\naccuracy 受注確度 OrderAccuracy\nmailSendDate メール送付日 LocalDate\npostSendDate 見積郵送日 LocalDate\nsendFlag 送信フラグ SendFlag\nsalesStaff 営業担当 String\nsalesOffice 営業事務 String\nupdateCount 更新回数 Long">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="quotation_no" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="quotation_name" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="quotation_date" type="date">
+                <constraints nullable="false" />
+            </column>
+            <column name="work_start" type="date">
+                <constraints nullable="false" />
+            </column>
+            <column name="work_end" type="date">
+                <constraints nullable="false" />
+            </column>
+            <column name="delivery_items" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="delivery_date" type="date">
+                <constraints nullable="false" />
+            </column>
+            <column name="acceptance_date" type="date">
+                <constraints nullable="false" />
+            </column>
+            <column name="payments_terms" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="pay_flag" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="quotation_expiration_date" type="date">
+                <constraints nullable="false" />
+            </column>
+            <column name="total_amount" type="decimal(21,2)">
+                <constraints nullable="false" />
+            </column>
+            <column name="customer_charge" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="accuracy" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="mail_send_date" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="post_send_date" type="date">
+                <constraints nullable="true" />
+            </column>
+            <column name="send_flag" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="sales_staff" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="sales_office" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="update_count" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20221212030344-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/quotation.csv"
+                  separator=";"
+                  tableName="quotation"
+                  usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="quotation_no" type="string"/>
+            <column name="quotation_name" type="string"/>
+            <column name="quotation_date" type="date"/>
+            <column name="work_start" type="date"/>
+            <column name="work_end" type="date"/>
+            <column name="delivery_items" type="string"/>
+            <column name="delivery_date" type="date"/>
+            <column name="acceptance_date" type="date"/>
+            <column name="payments_terms" type="string"/>
+            <column name="pay_flag" type="string"/>
+            <column name="quotation_expiration_date" type="date"/>
+            <column name="total_amount" type="numeric"/>
+            <column name="customer_charge" type="string"/>
+            <column name="accuracy" type="string"/>
+            <column name="mail_send_date" type="date"/>
+            <column name="post_send_date" type="date"/>
+            <column name="send_flag" type="string"/>
+            <column name="sales_staff" type="string"/>
+            <column name="sales_office" type="string"/>
+            <column name="update_count" type="numeric"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

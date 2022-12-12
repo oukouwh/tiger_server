@@ -1,0 +1,133 @@
+/**
+ *  見積書表
+  * quotationNo  見積書番号 String
+  * quotationName 見積書名  String
+  * quotationDate 見積書日付 LocalDate
+  * workStart 作業开始时间 LocalDate
+  * workEnd 作業終了期間  LocalDate
+  * deliveryItems 納入物件 String
+  * deliveryDate 納入日 LocalDate
+  * acceptanceDate 検収予定日 LocalDate
+  * paymentsTerms 支払条件 PayMaster
+  * payFlag 精算フラグ    PayFlag  Yあり、Nなし
+  * quotationExpirationDate 見積有効期限 LocalDate
+  * totalAmount 合計金額  BigDecimal
+     *       合計金額 = SUM(明細.金額=明細.数量×明細.単価)  ： totalAmount = SUM(standardPrice*count)
+     *       明細.追加時間単価=明細.単価÷上限時間  ：  additionalPrice = standardPrice/upperLimitHour
+     *       明細.控除時間単価=明細.単価÷下限時間 ：  deductionPrice = standardPrice/lowerLimitHour
+  * ↓↓↓↓↓↓↓↓非表示字段，数据库字段可以插入空值↓↓↓↓↓↓↓↓
+  * customerCharge 顧客担当 String
+  * accuracy 受注確度 OrderAccuracy
+  * mailSendDate メール送付日 LocalDate
+  * postSendDate 見積郵送日 LocalDate
+  * sendFlag 送信フラグ SendFlag
+  * salesStaff 営業担当 String
+  * salesOffice 営業事務 String
+  * updateCount 更新回数 Long
+ */
+entity Quotation {
+    quotationNo String required
+    quotationName String required maxlength(100)
+    quotationDate LocalDate required
+    workStart LocalDate required
+    workEnd LocalDate required
+    deliveryItems String required
+    deliveryDate LocalDate required
+    acceptanceDate LocalDate required
+    paymentsTerms PayMaster required
+    payFlag PayFlag required
+    quotationExpirationDate LocalDate required
+    totalAmount BigDecimal required max(999999999)
+    customerCharge String
+    accuracy OrderAccuracy
+    mailSendDate LocalDate
+    postSendDate LocalDate
+    sendFlag SendFlag
+    salesStaff String
+    salesOffice String
+    updateCount Long
+}
+
+/**
+ * A 未送信
+ * B 送信中
+ * C 发送成功
+ * D 送信失败
+ */
+enum SendFlag {
+    A, B, C, D
+}
+/**
+ * 精算フラグ  Y あり　N　なし
+ */
+enum PayFlag {
+    Y, N
+}
+/**
+ * 支払条件マスタ
+ * A 翌月末払い
+ * B 翌々月10日払い
+ * C 翌々月15日払い
+ * D 翌々月20日払い
+ * E 翌々月末払い
+ *
+ */
+enum PayMaster {
+    A, B, C, D, E
+}
+/**
+ * 見積書明細
+ * quotationNo  見積書番号 绑定
+ * quotationItemNo 見積書明細No
+ * workerName 作業者
+ * standardPrice 月額基準単価
+ * count 数量
+ * upperLimitHour 上限時間
+ * lowerLimitHour 下限時間
+ * additionalPrice 追加単価
+ * deductionPrice 控除単価
+ * memo 備考
+ * updateCount 更新回数  非表示
+ */
+entity Quotationitem {
+    quotationNo String required
+    quotationItemNo Long required
+    workerName String required
+    standardPrice BigDecimal required max(999999999)
+    count Long required
+    upperLimitHour BigDecimal required max(999)
+    lowerLimitHour BigDecimal required max(999)
+    additionalPrice BigDecimal required max(999999999)
+    deductionPrice BigDecimal max(999999999)
+    memo String required maxlength(255)
+    updateCount Long
+}
+
+enum OrderAccuracy {
+	A, B, C, D, E
+}
+
+entity Customer {
+  firstName String required
+  lastName String required
+  gender Gender required
+  email String required pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+  phone String required
+  addressLine1 String required
+  addressLine2 String
+  city String required
+  country String required
+}
+
+enum Gender {
+	MALE, FEMALE, OTHER
+}
+
+relationship OneToMany {
+	Quotation{quotationItem} to Quotationitem{quotation(quotationNo)}
+}
+
+paginate Customer, Quotation with pagination
+service Customer, Quotation with serviceClass
+
+

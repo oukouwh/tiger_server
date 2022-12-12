@@ -1,0 +1,125 @@
+{
+  "applications": "*",
+  "changelogDate": "20221212030344",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "quotation",
+  "fields": [
+    {
+      "fieldName": "quotationNo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "quotationName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "100"
+    },
+    {
+      "fieldName": "quotationDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "workStart",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "workEnd",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "deliveryItems",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "deliveryDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "acceptanceDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "paymentsTerms",
+      "fieldType": "PayMaster",
+      "fieldTypeJavadoc": "支払条件マスタ\\nA 翌月末払い\\nB 翌々月10日払い\\nC 翌々月15日払い\\nD 翌々月20日払い\\nE 翌々月末払い\\n",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "A,B,C,D,E"
+    },
+    {
+      "fieldName": "payFlag",
+      "fieldType": "PayFlag",
+      "fieldTypeJavadoc": "精算フラグ  Y あり　N　なし",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "Y,N"
+    },
+    {
+      "fieldName": "quotationExpirationDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "totalAmount",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": ["required", "max"],
+      "fieldValidateRulesMax": "999999999"
+    },
+    {
+      "fieldName": "customerCharge",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "accuracy",
+      "fieldType": "OrderAccuracy",
+      "fieldValues": "A,B,C,D,E"
+    },
+    {
+      "fieldName": "mailSendDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "postSendDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "sendFlag",
+      "fieldType": "SendFlag",
+      "fieldTypeJavadoc": "A 未送信\\nB 送信中\\nC 发送成功\\nD 送信失败",
+      "fieldValues": "A,B,C,D"
+    },
+    {
+      "fieldName": "salesStaff",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "salesOffice",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "updateCount",
+      "fieldType": "Long"
+    }
+  ],
+  "fluentMethods": true,
+  "javadoc": "見積書表\\nquotationNo  見積書番号 String\\nquotationName 見積書名  String\\nquotationDate 見積書日付 LocalDate\\nworkStart 作業开始时间 LocalDate\\nworkEnd 作業終了期間  LocalDate\\ndeliveryItems 納入物件 String\\ndeliveryDate 納入日 LocalDate\\nacceptanceDate 検収予定日 LocalDate\\npaymentsTerms 支払条件 PayMaster\\npayFlag 精算フラグ    PayFlag  Yあり、Nなし\\nquotationExpirationDate 見積有効期限 LocalDate\\ntotalAmount 合計金額  BigDecimal\\n合計金額 = SUM(明細.金額=明細.数量×明細.単価)  ： totalAmount = SUM(standardPrice*count)\\n明細.追加時間単価=明細.単価÷上限時間  ：  additionalPrice = standardPrice/upperLimitHour\\n明細.控除時間単価=明細.単価÷下限時間 ：  deductionPrice = standardPrice/lowerLimitHour\\n↓↓↓↓↓↓↓↓非表示字段，数据库字段可以插入空值↓↓↓↓↓↓↓↓\\ncustomerCharge 顧客担当 String\\naccuracy 受注確度 OrderAccuracy\\nmailSendDate メール送付日 LocalDate\\npostSendDate 見積郵送日 LocalDate\\nsendFlag 送信フラグ SendFlag\\nsalesStaff 営業担当 String\\nsalesOffice 営業事務 String\\nupdateCount 更新回数 Long",
+  "jpaMetamodelFiltering": false,
+  "name": "Quotation",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "quotationitem",
+      "otherEntityRelationshipName": "quotation",
+      "relationshipName": "quotationItem",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}
