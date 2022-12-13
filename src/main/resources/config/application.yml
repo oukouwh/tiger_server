@@ -190,14 +190,14 @@ jhipster:
   api-docs:
     default-include-pattern: ${server.servlet.context-path:}/api/**
     management-include-pattern: ${server.servlet.context-path:}/management/**
-    title: App Server API
-    description: App Server API documentation
+    title: App_Server_API
+    description: Serve_API_documentation
     version: 0.0.1
     terms-of-service-url:
     contact-name:
     contact-url:
     contact-email:
-    license: unlicensed
+    license: MIT
     license-url:
   security:
 # ===================================================================
