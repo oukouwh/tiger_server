@@ -201,6 +201,24 @@ public class QuotationResource {
             .build();
     }
 
+    /**
+     * 自定义查询，获取全部信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/quotations/{id}")
+    public ResponseEntity<Quotation> getQuotationInfo(@PathVariable Long id) {
+        log.debug("REST request to get Quotation : {}", id);
+        Optional<Quotation> quotation = quotationService.findAllById(id);
+        return ResponseUtil.wrapOrNotFound(quotation);
+    }
+
+    /**
+     *
+     * @param quotation
+     * @return
+     * @throws Exception
+     */
     @PostMapping("excel")
     public ResponseEntity<Object> createTestData(@RequestBody Quotation quotation) throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();

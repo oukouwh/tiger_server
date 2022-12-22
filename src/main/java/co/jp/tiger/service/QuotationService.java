@@ -3,6 +3,8 @@ package co.jp.tiger.service;
 import co.jp.tiger.domain.Quotation;
 import co.jp.tiger.repository.QuotationRepository;
 import java.util.Optional;
+
+import org.apache.poi.ss.formula.functions.T;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -157,5 +159,16 @@ public class QuotationService {
     public void delete(Long id) {
         log.debug("Request to delete Quotation : {}", id);
         quotationRepository.deleteById(id);
+    }
+
+    /**
+     * 自定义查询
+     * @param id
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public Optional<Quotation> findAllById(Long id) {
+        log.debug("Request findAllById Quotation : {}", id);
+        return quotationRepository.findAllById(id);
     }
 }
