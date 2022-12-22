@@ -206,7 +206,7 @@ public class QuotationResource {
      * @param id
      * @return
      */
-    @GetMapping("/quotations/{id}")
+    @GetMapping("/quotations/info/{id}")
     public ResponseEntity<Quotation> getQuotationInfo(@PathVariable Long id) {
         log.debug("REST request to get Quotation : {}", id);
         Optional<Quotation> quotation = quotationService.findAllById(id);
