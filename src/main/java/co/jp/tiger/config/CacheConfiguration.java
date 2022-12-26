@@ -52,6 +52,7 @@ public class CacheConfiguration {
             createCache(cm, co.jp.tiger.domain.Quotation.class.getName() + ".quotationItems");
             createCache(cm, co.jp.tiger.domain.Quotationitem.class.getName());
             createCache(cm, co.jp.tiger.domain.Customer.class.getName());
+            createCache(cm, co.jp.tiger.domain.Foo.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

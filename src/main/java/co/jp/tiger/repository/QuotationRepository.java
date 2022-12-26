@@ -1,7 +1,6 @@
 package co.jp.tiger.repository;
 
 import co.jp.tiger.domain.Quotation;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -25,5 +24,5 @@ public interface QuotationRepository extends JpaRepository<Quotation, Long> {
         "q2.workerName, q2.standardPrice, q2.count, q2.upperLimitHour, q2.lowerLimitHour,\n" +
         "q2.additionalPrice, q2.deductionPrice, q2.memo, q2.updateCount " +
         "FROM Quotation q1, Quotationitem q2 WHERE q1.id = q2.id AND q1.id = ?1")
-    public Optional<Quotation> findAllById(Long id);
+    Optional<Quotation> findAllById(Long id);
 }

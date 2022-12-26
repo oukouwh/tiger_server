@@ -18,7 +18,7 @@
     "enableHibernateCache": true,
     "enableSwaggerCodegen": false,
     "enableTranslation": true,
-    "entities": ["Quotation", "Quotationitem", "Customer"],
+    "entities": ["Quotation", "Quotationitem", "Customer", "Foo"],
     "entitySuffix": "",
     "jhiPrefix": "jhi",
     "jhipsterVersion": "7.9.3",

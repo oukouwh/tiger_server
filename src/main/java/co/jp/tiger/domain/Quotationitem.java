@@ -25,6 +25,7 @@ public class Quotationitem implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
@@ -46,7 +47,7 @@ public class Quotationitem implements Serializable {
 
     @NotNull
     @Column(name = "count", nullable = false)
-    private BigDecimal count;
+    private Long count;
 
     @NotNull
     @DecimalMax(value = "999")
@@ -76,12 +77,18 @@ public class Quotationitem implements Serializable {
     private Long updateCount;
 
     @ManyToOne
-    @JsonIgnoreProperties("quotationItems")
+    @JsonIgnoreProperties(value = { "quotationItems" }, allowSetters = true)
     private Quotation quotation;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here
+
     public Long getId() {
-        return id;
+        return this.id;
+    }
+
+    public Quotationitem id(Long id) {
+        this.setId(id);
+        return this;
     }
 
     public void setId(Long id) {
@@ -89,11 +96,11 @@ public class Quotationitem implements Serializable {
     }
 
     public String getQuotationNo() {
-        return quotationNo;
+        return this.quotationNo;
     }
 
     public Quotationitem quotationNo(String quotationNo) {
-        this.quotationNo = quotationNo;
+        this.setQuotationNo(quotationNo);
         return this;
     }
 
@@ -102,11 +109,11 @@ public class Quotationitem implements Serializable {
     }
 
     public Long getQuotationItemNo() {
-        return quotationItemNo;
+        return this.quotationItemNo;
     }
 
     public Quotationitem quotationItemNo(Long quotationItemNo) {
-        this.quotationItemNo = quotationItemNo;
+        this.setQuotationItemNo(quotationItemNo);
         return this;
     }
 
@@ -115,11 +122,11 @@ public class Quotationitem implements Serializable {
     }
 
     public String getWorkerName() {
-        return workerName;
+        return this.workerName;
     }
 
     public Quotationitem workerName(String workerName) {
-        this.workerName = workerName;
+        this.setWorkerName(workerName);
         return this;
     }
 
@@ -128,11 +135,11 @@ public class Quotationitem implements Serializable {
     }
 
     public BigDecimal getStandardPrice() {
-        return standardPrice;
+        return this.standardPrice;
     }
 
     public Quotationitem standardPrice(BigDecimal standardPrice) {
-        this.standardPrice = standardPrice;
+        this.setStandardPrice(standardPrice);
         return this;
     }
 
@@ -140,25 +147,25 @@ public class Quotationitem implements Serializable {
         this.standardPrice = standardPrice;
     }
 
-    public BigDecimal getCount() {
-        return count;
+    public Long getCount() {
+        return this.count;
     }
 
-    public Quotationitem count(BigDecimal count) {
-        this.count = count;
+    public Quotationitem count(Long count) {
+        this.setCount(count);
         return this;
     }
 
-    public void setCount(BigDecimal count) {
+    public void setCount(Long count) {
         this.count = count;
     }
 
     public BigDecimal getUpperLimitHour() {
-        return upperLimitHour;
+        return this.upperLimitHour;
     }
 
     public Quotationitem upperLimitHour(BigDecimal upperLimitHour) {
-        this.upperLimitHour = upperLimitHour;
+        this.setUpperLimitHour(upperLimitHour);
         return this;
     }
 
@@ -167,11 +174,11 @@ public class Quotationitem implements Serializable {
     }
 
     public BigDecimal getLowerLimitHour() {
-        return lowerLimitHour;
+        return this.lowerLimitHour;
     }
 
     public Quotationitem lowerLimitHour(BigDecimal lowerLimitHour) {
-        this.lowerLimitHour = lowerLimitHour;
+        this.setLowerLimitHour(lowerLimitHour);
         return this;
     }
 
@@ -180,11 +187,11 @@ public class Quotationitem implements Serializable {
     }
 
     public BigDecimal getAdditionalPrice() {
-        return additionalPrice;
+        return this.additionalPrice;
     }
 
     public Quotationitem additionalPrice(BigDecimal additionalPrice) {
-        this.additionalPrice = additionalPrice;
+        this.setAdditionalPrice(additionalPrice);
         return this;
     }
 
@@ -193,11 +200,11 @@ public class Quotationitem implements Serializable {
     }
 
     public BigDecimal getDeductionPrice() {
-        return deductionPrice;
+        return this.deductionPrice;
     }
 
     public Quotationitem deductionPrice(BigDecimal deductionPrice) {
-        this.deductionPrice = deductionPrice;
+        this.setDeductionPrice(deductionPrice);
         return this;
     }
 
@@ -206,11 +213,11 @@ public class Quotationitem implements Serializable {
     }
 
     public String getMemo() {
-        return memo;
+        return this.memo;
     }
 
     public Quotationitem memo(String memo) {
-        this.memo = memo;
+        this.setMemo(memo);
         return this;
     }
 
@@ -219,11 +226,11 @@ public class Quotationitem implements Serializable {
     }
 
     public Long getUpdateCount() {
-        return updateCount;
+        return this.updateCount;
     }
 
     public Quotationitem updateCount(Long updateCount) {
-        this.updateCount = updateCount;
+        this.setUpdateCount(updateCount);
         return this;
     }
 
@@ -232,18 +239,19 @@ public class Quotationitem implements Serializable {
     }
 
     public Quotation getQuotation() {
-        return quotation;
-    }
-
-    public Quotationitem quotation(Quotation quotation) {
-        this.quotation = quotation;
-        return this;
+        return this.quotation;
     }
 
     public void setQuotation(Quotation quotation) {
         this.quotation = quotation;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+    public Quotationitem quotation(Quotation quotation) {
+        this.setQuotation(quotation);
+        return this;
+    }
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
@@ -258,9 +266,11 @@ public class Quotationitem implements Serializable {
 
     @Override
     public int hashCode() {
-        return 31;
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "Quotationitem{" +
